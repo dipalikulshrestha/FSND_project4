@@ -36,3 +36,27 @@ Completing the project involves several steps:
 6. Create a CodeBuild stage which will build, test, and deploy your code
 
 For more detail about each of these steps, see the project lesson [here](https://classroom.udacity.com/nanodegrees/nd004/parts/1d842ebf-5b10-4749-9e5e-ef28fe98f173/modules/ac13842f-c841-4c1a-b284-b47899f4613d/lessons/becb2dac-c108-4143-8f6c-11b30413e28d/concepts/092cdb35-28f7-4145-b6e6-6278b8dd7527).
+
+## EXTERNAL IP
+
+ad78b1a6210334513b3414d40b2b8fd5-668181699.us-west-2.elb.amazonaws.com
+
+##Reference Output
+ [ec2-user@ip-172-31-18-214 ~]$ kubectl get services simple-jwt-api -o wide
+NAME             TYPE           CLUSTER-IP      EXTERNAL-IP                                                              PORT(S)        AGE   SELECTOR
+simple-jwt-api   LoadBalancer   10.100.32.184   ad78b1a6210334513b3414d40b2b8fd5-668181699.us-west-2.elb.amazonaws.com   80:30820/TCP   33m   app=simple-jwt-api
+[ec2-user@ip-172-31-18-214 ~]$ export TOKEN=`curl -d '{"email":"dipali.kulshrestha@gmail.com","password":"mypasssword"}' -H "Content-Type: application/json" -X POST ad78b1a6210334513b3414d40b2b8fd5-668181699.us-west-2.elb.amazonaws.com/auth  | jq -r '.token'`
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   258  100   193  100    65   9650   3250 --:--:-- --:--:-- --:--:-- 12900
+[ec2-user@ip-172-31-18-214 ~]$ curl --request GET 'ad78b1a6210334513b3414d40b2b8fd5-668181699.us-west-2.elb.amazonaws.com/contents' -H "Authorization: Bearer ${TOKEN}" | jq
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100    75  100    75    0     0   8333      0 --:--:-- --:--:-- --:--:--  8333
+{
+  "email": "dipali.kulshrestha@gmail.com",
+  "exp": 1590862559,
+  "nbf": 1589652959
+}
+[ec2-user@ip-172-31-18-214 ~]$
+
